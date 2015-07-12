@@ -7,13 +7,13 @@ from flipkart.items import FlipkartItem
 class FlipkartSpider(Spider):
     name = "flipkart"
     allowed_domains = ["flipkart.com"]
-    '''orig="http://www.flipkart.com/mobiles/pr?sid=tyy,4io&start=";
+    orig="http://www.flipkart.com/mobiles/pr?sid=tyy,4io&start=";
     start_urls=[]
     for j in range(1,1500,20):
         x=orig+str(j)
         start_urls.append(x)
-        #print j'''
-    start_urls=['http://www.flipkart.com/mobiles/pr?sid=tyy,4io&start=141', 'http://www.flipkart.com/mobiles/pr?sid=tyy,4io&start=1441']
+        #print j
+    '''start_urls=['http://www.flipkart.com/mobiles/pr?sid=tyy,4io&start=141', 'http://www.flipkart.com/mobiles/pr?sid=tyy,4io&start=1441']'''
             
 
     
@@ -28,10 +28,13 @@ class FlipkartSpider(Spider):
         items = []
         for site in sites:
             item=FlipkartItem()
-            item['name']=site.xpath('./div[1]/a[1]/@href').extract()
-            #item['price']=site.xpath('text()').extract()
-            #item['details']=site.xpath('li/span/text()').extract()
-            #initial="https://flipkart.com"
+            initial="https://flipkart.com"
+            item['link']=initial+''.join(site.xpath('./div[1]/a[1]/@href').extract())
+            item['i_link']=site.xpath('./div[1]/a[1]/img[@src]').extract()
+            item['details']=site.xpath('div[2]/div[5]/ul/li/span/text()').extract()
+            item['price']=site.xpath('div[2]/div[4]/div[1]/div[1]/span/text()').extract()
+            item['name']=site.xpath('div[2]/div[1]/a/text()').extract()
+           	#initial="https://flipkart.com"
             #item['link']=initial+''.join(sites_link[i].xpath('@href').extract())
             #item['i_link']=sites_link[i].xpath('img/@data-src').extract()
             #items.append(item)
